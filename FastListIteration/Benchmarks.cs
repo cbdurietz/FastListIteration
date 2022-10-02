@@ -8,7 +8,7 @@ namespace FastListIteration;
 [MemoryDiagnoser(false)]
 public class Benchmarks {
 
-    [Params(10, 100)]
+    [Params(10, 100, 1000)]
     public int Size { get; set; }
 
     private IEnumerable<Order> _orderEnumerable;
@@ -99,16 +99,14 @@ public class Benchmarks {
 
     [Benchmark]
     public void ForEach_Enumerable_Span() {
-        foreach (var order in CollectionsMarshal.AsSpan(_orderEnumerable.ToList()))
-        {
+        foreach (var order in CollectionsMarshal.AsSpan(_orderEnumerable.ToList())) {
             DoSomething(order);
         }
     }
 
     [Benchmark]
     public void ForEach_List_Span() {
-        foreach (var order in CollectionsMarshal.AsSpan(_orderList))
-        {
+        foreach (var order in CollectionsMarshal.AsSpan(_orderList)) {
             DoSomething(order);
         }
     }
@@ -128,7 +126,6 @@ public class Benchmarks {
         for (var i = 0; i < asSpan.Length; i++) {
             var order = asSpan[i];
             DoSomething(order);
-
         }
     }
 
