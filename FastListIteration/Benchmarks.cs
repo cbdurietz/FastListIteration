@@ -122,7 +122,7 @@ public class Benchmarks {
 
     [Benchmark]
     public void For_List_Span() {
-        var asSpan = CollectionsMarshal.AsSpan(_orderList.ToList());
+        var asSpan = CollectionsMarshal.AsSpan(_orderList);
         for (var i = 0; i < asSpan.Length; i++) {
             var order = asSpan[i];
             DoSomething(order);
