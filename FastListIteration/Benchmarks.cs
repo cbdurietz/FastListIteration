@@ -39,7 +39,7 @@ public class Benchmarks {
 
     [Benchmark]
     public void For_Enumerable() {
-        for (var i = 0; i < _orderEnumerable.ToList().Count; i++) {
+        for (var i = 0; i < _orderEnumerable.Count(); i++) {
             var order = _orderEnumerable.ToList()[i];
             DoSomething(order);
         }
