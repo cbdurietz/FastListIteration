@@ -14,7 +14,7 @@ public class Benchmarks {
     private IEnumerable<Order> _orderEnumerable;
     private List<Order> _orderList = new();
 
-    public static Faker<BillingDetails> BillingDetailsFaker = new Faker<BillingDetails>()
+    public static readonly Faker<BillingDetails> BillingDetailsFaker = new Faker<BillingDetails>()
         .RuleFor(x => x.CustomerName, x => x.Person.FullName)
         .RuleFor(x => x.Email, x => x.Person.Email)
         .RuleFor(x => x.Phone, x => x.Person.Phone)
@@ -23,17 +23,21 @@ public class Benchmarks {
         .RuleFor(x => x.PostCode, x => x.Address.ZipCode())
         .RuleFor(x => x.Country, x => x.Address.Country());
 
-    public static Faker<Order> OrderFaker = new Faker<Order>()
+    public static readonly Faker<Order> OrderFaker = new Faker<Order>()
         .RuleFor(x => x.Id, x => Guid.NewGuid())
         .RuleFor(x => x.Price, x => x.Finance.Amount(5, 100))
         .RuleFor(x => x.Currency, x => x.Finance.Currency().Code)
         .RuleFor(x => x.BillingDetails, x => BillingDetailsFaker);
 
+    public Benchmarks(IEnumerable<Order> orderEnumerable)
+    {
+        _orderEnumerable = orderEnumerable;
+    }
+
     [GlobalSetup]
     public void Setup() {
-
         Randomizer.Seed = new Random(54815148);
-        _orderEnumerable = OrderFaker.Generate(Size); // as IEnumerable<Order>;
+        _orderEnumerable = OrderFaker.Generate(Size);
         _orderList = _orderEnumerable.ToList();
     }
 
@@ -130,6 +134,6 @@ public class Benchmarks {
     }
 
     public static void DoSomething(Order order) {
-        //Console.WriteLine(order.BillingDetails.CustomerName);
+        //This should be empty since you don't want anything to interfere with the benchmark.
     }
 }
