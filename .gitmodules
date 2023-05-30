@@ -1,0 +1,3 @@
+[submodule "HtmlExtensionLabs"]
+	path = HtmlExtensionLabs
+	url = https://github.com/cbdurietz/HtmlExtensionLabs.git
